@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+void escriu (const vector<string>& v, const vector<int>& vs, int n, int p) {
+    for (int k = 1; k <= p; ++k) {
+        cout << "subconjunt " << k << ": {";
+        bool primer = true;
+        for (int i = 0; i < n; ++i) {
+            if (vs[i] == k) {
+                if (not primer) cout << "," << v[i];
+                else cout << v[i];
+                primer = false;
+            }
+        }
+        cout << "}" << endl;
+    }
+    cout << endl;
+}
+
+void particions (const vector<string>& v, vector<int>& vs, int n, int i, int p) {
+    if (i == n) escriu(v,vs,n,p);
+    else {
+        for (int j = 0; j < p; ++j) {
+            vs[i] = j+1;
+            particions(v,vs,n,i+1,p);
+        }
+    }
+}
+
+int main() {
+    int n, p;
+    cin >> n;
+    vector<string> v(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> v[i];
+    }
+    cin >> p;
+    vector<int> vs(n);
+    particions(v,vs,n,0,p);
+}
