@@ -1,0 +1,32 @@
+void tpCalibrate(void) {
+  while (!tpPressDetect());
+	cal_x_min = tpGetX();
+	cal_y_min = tpGetY();
+	Delay1KTCYx(40);
+
+	while (!tpPressDetect());
+	cal_x_max = tpGetX();
+	cal_y_max = tpGetY();
+	Delay1KTCYx(40);
+	
+	if (cal_x_min != 0) {
+		cal_x_max = cal_x_max - cal_x_min;
+		cal_x_min = 0;
+	}
+	if (cal_y_min != 0) {
+		cal_y_max = cal_y_max - cal_y_min;
+		cal_y_min = 0;
+	}
+}
+
+//A implementar per l'alumne
+
+void convert_write (byte x, byte y) {
+	byte x2 = (cal_y_max - y)/8;
+	byte y2 = cal_x_max - x;
+
+	byte x128 = (x * 128) / 256;
+	byte y64 = 64 -((y *64) / 256);
+	SetDot(y64/8,x128);
+	Delay1KTCYx(40);
+}
